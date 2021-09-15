@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,14 +7,23 @@
     <title>profile-page</title>
 </head>
 <body>
-    <h1>welcome {{request.user.username}} 
-        <img src="{{request.user.profile.image.url}}" 
-            height=300px width=300px> </h1>
-    <h4>caption:{{request.user.profile.caption}}</h4>
+    <h1>Update Your profile {{request.user.username}} </h1>
+    <br>
+    <br>
+    <form  method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <br>
+        <br>
+        <br>
+        <input type="submit"  value="update">
+        
+    </form>
+    
 </body>
-</html> -->
+</html>
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -28,4 +37,4 @@
         <input type="text" id="caption" name="caption" placeholder="CAPTION" >
     </form>
 </body>
-</html>
+</html> -->

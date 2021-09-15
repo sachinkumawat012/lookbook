@@ -7,10 +7,23 @@ from . forms import NewUserForm, UserProfile
 from django.contrib import messages
 from django.contrib.sessions.models import Session
 from .models import Profile
+from django.contrib.auth import login, authenticate
 
 def profile(request):
-	form = UserProfile()
-	return render(request, 'myapp/profile.html')
+	if request.method == "POST":
+		form = UserProfile(request.POST, request.FILES)
+		#import pdb; pdb.set_trace()
+		if form.is_valid():
+			profile = form.save(commit =False)
+			profile.profile_of_user = request.user
+			profile.save()
+			return redirect('index')
+
+	else:
+		if request.session.has_key('is_logged'):
+			form = UserProfile()
+			return render(request, 'myapp/profile.html', {'form':form})
+		return redirect('login')
 
 
 def index(request):
@@ -29,10 +42,20 @@ def register(request):
 		form = NewUserForm(request.POST)
 		if form.is_valid():
 			form.save()
-			messages.success(request, "Successfully Register")
-			return redirect('login')         
-
+			username = request.POST['username']
+			password = request.POST['password1']
+			
+			user = auth.authenticate(username=username, password=password)	
+		
+			if user is not None:
+				auth.login(request, user)
+				if request.session.has_key('is_logged'):
+				#request.session['is_logged']=True
+					return redirect('profile')
+			else:
+		 		return HttpResponse('invailid credentials')
 	else:
+		request.session['is_logged']=True
 		form = NewUserForm()
 		return render(request, 'myapp/register.html', {'form':form})
 
@@ -47,7 +70,7 @@ def login(request):
 		if user is not None:
 			auth.login(request, user)
 			request.session['is_logged']=True
-			return redirect('index')
+			return redirect('profile')
 		else:
 		 	return HttpResponse('invailid credentials')
 			
