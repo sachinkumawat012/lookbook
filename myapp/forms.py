@@ -20,7 +20,8 @@ class NewUserForm(UserCreationForm):
 		return user
 
 
-class UserProfile(Profile):
+class UserProfile(forms.ModelForm):
 	
+	class Meta:
 		model = Profile
 		fields = ['image', 'caption']
