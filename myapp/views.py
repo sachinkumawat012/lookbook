@@ -94,28 +94,28 @@ def logouts(request):
 # 		data = Profile.objects.all()
 # 		return render(request, 'myapp/main.html', {'data':data})
 
-def main(request):
-	if request.session.has_key('is_logged'):
-		posts = PostModel.objects.all()
-		return render(request, 'myapp/main.html', {'posts':posts})
+# def main(request):
+# 	if request.session.has_key('is_logged'):
+# 		posts = PostModel.objects.all()
+# 		return render(request, 'myapp/main.html', {'posts':posts})
 
 
-def details(request, id):
-	#import pdb; pdb.set_trace()
-	post = PostModel.objects.get(id=id)
-	comments = CommentModel.objects.filter(post_id=post)
-	form = CommentForm() 
-	context = {
-		'post': post,
-		'form': form,
-		'comments': comments
-	}
-	if request.method == "POST":
-		form = CommentForm(request.POST)
-		if form.is_valid():
-			comment = form.save(commit=False)
-			comment.user_id = request.user
-			comment.post_id = post
-			comment.save()
+# def details(request, id):
+# 	#import pdb; pdb.set_trace()
+# 	post = PostModel.objects.get(id=id)
+# 	comments = CommentModel.objects.filter(post_id=post)
+# 	form = CommentForm() 
+# 	context = {
+# 		'post': post,
+# 		'form': form,
+# 		'comments': comments
+# 	}
+# 	if request.method == "POST":
+# 		form = CommentForm(request.POST)
+# 		if form.is_valid():
+# 			comment = form.save(commit=False)
+# 			comment.user_id = request.user
+# 			comment.post_id = post
+# 			comment.save()
 
-	return render(request, 'myapp/details.html', context)
+# 	return render(request, 'myapp/details.html', context)

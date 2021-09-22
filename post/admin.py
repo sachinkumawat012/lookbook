@@ -5,7 +5,7 @@ from .models import CommentModel, PostModel
 
 @admin.register(PostModel)
 class PostAdmin(admin.ModelAdmin):
-    display_list = ['image', 'description']
+    display_list = ['image', 'description', 'post_like']
 
 
 

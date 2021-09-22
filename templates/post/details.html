@@ -25,6 +25,10 @@
      
         {{ post.description }} 
         <br>
+        <form action="{% url 'like' post.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="like" value="{{post.id}}">like</button> -->{{likes}}
+        </form>
         <form method="POST">
             {%  csrf_token %}
             {{form }}

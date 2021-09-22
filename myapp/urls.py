@@ -11,8 +11,8 @@ urlpatterns = [
     path("index/", views.index, name="index"),
     path("profile/", views.profile, name="profile"),
     path("logouts/", views.logouts, name="logouts"),
-    path("main/", views.main, name="main"),
-    path("details/<id>", views.details, name="details"),
+    # path("main/", views.main, name="main"),
+    # path("details/<id>", views.details, name="details"),
 
 
     
