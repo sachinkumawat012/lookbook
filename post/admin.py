@@ -1,8 +1,14 @@
 from django.contrib import admin
-from .models import UserPostModel
+from .models import CommentModel, PostModel
 
 # Register your models here.
 
-@admin.register(UserPostModel)
-class UserPostAdmin(admin.ModelAdmin):
+@admin.register(PostModel)
+class PostAdmin(admin.ModelAdmin):
     display_list = ['image', 'description']
+
+
+
+@admin.register(CommentModel)
+class CommentAdmin(admin.ModelAdmin):
+    display_list = ['massege', 'datetime']

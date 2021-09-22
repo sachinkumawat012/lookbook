@@ -1,9 +1,17 @@
 from django import forms
 from django.db import models
-from .models import UserPostModel
+from .models import CommentModel, PostModel
 
 
-class UserPostForm(forms.ModelForm):
+class PostForm(forms.ModelForm):
+    
     class Meta:
-        model = UserPostModel
+        model = PostModel
         fields = ["image", "description"]
+
+
+class CommentForm(forms.ModelForm):
+    
+    class Meta:
+        model = CommentModel
+        fields = ['massege', 'datetime']

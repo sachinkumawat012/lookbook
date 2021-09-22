@@ -1,19 +1,16 @@
 from django.contrib import admin
 from django.urls import path
-from myapp import views
+from django.urls import include
+from myapp import urls
+from post import urls
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", views.home, name="homepage"),
-    path("register/", views.register, name="register"),
-    path("login/", views.login, name="login"),
-    path("index/", views.index, name="index"),
-    path("profile/", views.profile, name="profile"),
-
-
-
+    path('', include('myapp.urls')),
+    path('post/', include('post.urls')),
+    
 ]
 
 if settings.DEBUG:
