@@ -5,9 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>main page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <div class="container" style="background-color:rgb(39, 112, 155)"  align=right>
+
+    <div class="container" style="background-color:rgb(39, 112, 155)"  align=right >
     <a href="{% url 'logouts' %}">Logout</a><br>
     <br>
     <a href="{% url 'index' %}">GoToYourAccount</a>
@@ -27,8 +29,41 @@
      
         {{ post.description }} <a href="{% url 'details' post.id %} ">Details</a>
         <br>
+        {% if request.user in post.like.all%}
+            <a href="#" id="like{{post.id}}" onclick=""  name="like" data="{{post.id}}" class="like">liked</a> -->{{likes}}
+        {% else %}
+        <a href="#" id="like{{post.id}}" onclick=""  name="like" data="{{post.id}}" class="like">like</a> -->{{likes}}
+
+        {% endif %}
+
+        
+        <br>
         <br>
 
     {% endfor %}
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+           $('.like').click(function(event){
+               event.preventDefault();
+               var post_id = $(this).attr('data');
+            
+            $.ajax({
+             type: "GET",
+             url: "{% url 'like' %}",
+             data: {'post_id': post_id},
+             dataType: "json",
+             success: function(response) {
+                
+                 if (response.is_liked){
+                    $('#like'+post_id).text('liked');
+                 }
+                else {
+                    $('#like'+post_id).text('like');
+                }
+             }
+            });
+           });
+        });    
+    </script>
 </body>
 </html>

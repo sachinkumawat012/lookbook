@@ -8,7 +8,7 @@ urlpatterns = [
     path("post", views.post, name="post"),
     path("main/", views.main, name="main"),
     path("details/<id>", views.details, name="details"),
-    path("like/<id>", views.like, name="like"),
+    path("like/", views.like, name="like"),
 
 
 ]

@@ -1,4 +1,4 @@
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponseRedirect, JsonResponse
 from .forms import PostForm, CommentForm
 from .models import CommentModel, PostModel
 from django.shortcuts import  redirect, render
@@ -27,11 +27,22 @@ def main(request):
 		return render(request, 'post/main.html', {'posts':posts})
 
 
-def like(request, id):
-	post = PostModel.objects.get(id=id)
-	post.like.add(request.user)
+def like(request):
+	is_liked = False
+	post_id = request.GET.get('post_id')
+	post = PostModel.objects.get(id=post_id)
+	if post.like.filter(id=request.user.id).exists():
+		post.like.remove(request.user)
+	else:
+		post.like.add(request.user)
+		is_liked = True
 	post.save()
-	return HttpResponseRedirect(reverse('details', args=[str(id)]))
+	data = {
+		'status': 200, 
+		'total_likes': post.like.count(),
+		'is_liked': is_liked
+	}
+	return JsonResponse(data)
 
 def details(request, id):
 	#import pdb; pdb.set_trace()
