@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+ <body>
+     <div style=" border: rgb(68, 206, 160); margin: 10px; background-color:royalblue;">
+    <h1> Profile page </h1>
+    <br>
+    {% for post in posts%}
+        {{ post.id }} 
+        <br>
+        {% if post.image %}
+            <img src="{{post.image.url}}" alt="" class="prod-size">
+        {% endif %}
+        <br>
+        <!-- <a href="#" id="follow{{post.id}}" onclick=""  name="follow" data="{{post.id}}" class="follow">follow</a>  -->
+
+            <a 
+            type="button" 
+            class="btn btn-outline-primary" 
+            id="follow" role="button" 
+            href="{% url 'follow' post.id %}"> 
+            Follow 
+            </a>
+        </form>
+        <br>
+        
+    {% endfor %}
+
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+           $('#follow').click(function(event){
+               event.preventDefault();
+               var href = this.href;
+        
+              
+            $.ajax({
+                url: href,
+                type: 'GET',
+                data: {'main_user': main_user},
+                dataType: "json",
+                success: function(response) {
+                
+                    if (response[following]){
+                        $('#follow'+main_user).text('unfollow');
+                    }
+                    else {
+                        $('#follow'+main_user).text('follow');
+                    }
+            
+                }
+            });
+           });
+        });
+    </script>
+    </div>
+ </body>
+</html>

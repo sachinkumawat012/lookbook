@@ -7,11 +7,26 @@
     <title>index-page</title>
 </head>
 <body>
+    <div style="background-color: aquamarine;" >
+    <nav>
+    <ul>
+    <div class="container" style="background-color:rgb(40, 142, 189)"  align=right>
+
+    <li><a href="{% url 'logouts' %}">Logout</a></li>
+    <br>
+    <li><a href="{% url 'profile' %}">UpdateProfile</a></li>
+    <br>
+    <li><a href="{% url 'post' %}">AddPost</a></li>
+    </div>  
+    </nav>
+    </ul>
+    <br>
+    <br>     
+
     <h1>WELCOME IN LOOKBOOK {{request.user.username}}</h1>
-    <h1>welcome {{request.user.username}} 
         <img src="{{request.user.profile.image.url}}" 
             height=300px width=300px> </h1>
     <h4>caption:{{request.user.profile.caption}}</h4>
-
+   
 </body>
 </html>
