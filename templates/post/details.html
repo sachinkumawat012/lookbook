@@ -5,8 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>main page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 <body>
+    <div style="background-color: aquamarine; margin:10px;" >
+
     <div class="container" style="background-color:rgb(39, 112, 155)"  align=right>
     <a href="{% url 'logouts' %}">Logout</a><br>
     <br>
@@ -20,15 +24,17 @@
         {% endif %}
         <br> 
         {{post.id}}
-        <!-- <input type="hidden" id={{d.id}}> -->
         <br>
      
         {{ post.description }} 
         <br>
-        <form action="{% url 'likepost' post.id %}" method="POST">
-            {% csrf_token %}
-            <button type="submit" name="like" value="{{post.id}}">like</button> -->{{likes}}
-        </form>
+        <a 
+        type="button"
+        class="btn btn-outline-primary" 
+        id="follow" 
+        role="button" 
+        href="{% url 'follow' post_id=post.id %}">Follow</a>
+      
         <form method="POST">
             {%  csrf_token %}
             {{form }}
@@ -38,6 +44,29 @@
         {% for comment in comments %}
             <h3>{{ comment.massege }}</h3>
         {% endfor %}
-    
+    </div>
+
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+           $('#follow').click(function(event){
+               event.preventDefault();
+               var href = this.href;
+               console.log(herf);
+               $.ajax({
+                   url: href,
+                   success:function(response){
+                       if(response["following"]){
+                           $("#follow").text('unfollow')
+                       }
+                       else{
+                        $("#follow").text('follow')
+
+                       }
+                   }
+               })
+           });
+        })
+    </script>
+              
 </body>
 </html>

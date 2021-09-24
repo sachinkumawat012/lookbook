@@ -7,6 +7,7 @@
     <title>index-page</title>
 </head>
 <body>
+    <div style="background-color: aquamarine;" >
     <div class="container" style="background-color:rgb(40, 142, 189)"  align=right>
 
     <a href="{% url 'logouts' %}">Logout</a><br>
@@ -22,6 +23,6 @@
         <img src="{{request.user.profile.image.url}}" 
             height=300px width=300px> </h1>
     <h4>caption:{{request.user.profile.caption}}</h4>
-
+   
 </body>
 </html>

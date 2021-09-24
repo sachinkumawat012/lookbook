@@ -8,8 +8,9 @@ urlpatterns = [
     path("post", views.post, name="post"),
     path("main/", views.main, name="main"),
     path("details/<id>", views.details, name="details"),
-    path("like/", views.like, name="like"),
-
+    path("like", views.like, name="like"),
+    path("follow/<post_id>", views.follow, name="follow"),
+    path("profile/<id>", views.profile, name="profile"),
 
 ]
 

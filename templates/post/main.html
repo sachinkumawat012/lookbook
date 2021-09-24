@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+        .footer {
+           position: fixed;
+           left: 0;
+           bottom: 0;
+           width: 100%;
+           text-align: center;
+        }
+        </style>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +19,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
+    <div style="background-color: aquamarine; " >
+
 
     <div class="container" style="background-color:rgb(39, 112, 155)"  align=right >
     <a href="{% url 'logouts' %}">Logout</a><br>
@@ -17,28 +30,29 @@
     <br>
     <br>
     {% for post in posts%}
-        <!-- {{ d.image }}<br> -->
-
+     
         {% if post.image %}
             <img src="{{post.image.url}}" alt="" class="prod-size">
         {% endif %}
         <br> 
         {{post.id}}
-        <!-- <input type="hidden" id={{d.id}}> -->
+   
         <br>
      
         {{ post.description }} <a href="{% url 'details' post.id %} ">Details</a>
         <br>
+        <a href="{% url 'profile' post.id %} ">profile</a>
+        <br>
+        <hr aria-modal="true">
         {% if request.user in post.like.all%}
-            <a href="#" id="like{{post.id}}" onclick=""  name="like" data="{{post.id}}" class="like">liked</a> -->{{likes}}
+            <a href="#" id="like{{post.id}}" onclick=""  name="like" data="{{post.id}}" class="like">liked</a> -->
+            <p id="count{{post.id}}" class="count" > {{post.total_likes}} </p>
         {% else %}
-        <a href="#" id="like{{post.id}}" onclick=""  name="like" data="{{post.id}}" class="like">like</a> -->{{likes}}
-
+            <a href="#" id="like{{post.id}}" onclick=""  name="like" data="{{post.id}}" class="like">like</a> -->{{ total_likes }}
+            <p id="count{{post.id}}" class="count" > {{post.total_likes}} </p>
         {% endif %}
-
         
-        <br>
-        <br>
+           <br>
 
     {% endfor %}
     <script type="text/javascript"> 
@@ -46,7 +60,7 @@
            $('.like').click(function(event){
                event.preventDefault();
                var post_id = $(this).attr('data');
-            
+              
             $.ajax({
              type: "GET",
              url: "{% url 'like' %}",
@@ -54,16 +68,25 @@
              dataType: "json",
              success: function(response) {
                 
-                 if (response.is_liked){
+               
+                               
+                if (response.is_liked){
                     $('#like'+post_id).text('liked');
-                 }
+                }
                 else {
                     $('#like'+post_id).text('like');
                 }
-             }
+            
+                $('#count'+post_id).text(response.total_likes);
+                }
+              
             });
            });
         });    
     </script>
+    </div>
+    <hr>
+    <div  style="color: rgb(235, 10, 10);" class="fotter">contact_as:- info@gmail.com <br> phone:- 1233445675</div>
+</div> 
 </body>
 </html>

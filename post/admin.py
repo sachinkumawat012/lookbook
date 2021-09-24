@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CommentModel, PostModel
+from .models import CommentModel, PostModel, Following
 
 # Register your models here.
 
@@ -12,3 +12,8 @@ class PostAdmin(admin.ModelAdmin):
 @admin.register(CommentModel)
 class CommentAdmin(admin.ModelAdmin):
     display_list = ['massege', 'datetime']
+
+
+@admin.register(Following)
+class CommentAdmin(admin.ModelAdmin):
+    display_list = []
