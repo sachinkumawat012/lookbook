@@ -11,6 +11,7 @@ class PostModel(models.Model):
     image = models.ImageField(upload_to="profilepic", null=True, blank=True)
     description = models.CharField(max_length=500)
     like = ManyToManyField(User, related_name='likes')
+  
 
     def total_likes(self):
         return self.like.count()
@@ -23,21 +24,12 @@ class CommentModel(models.Model):
     datetime = models.DateTimeField(default=date.today)
 
 
-class Following(models.Model):
+
+class Followers(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    followed = models.ManyToManyField(User, related_name="followed")
-
-    @classmethod
-    def follow(cls, user, another_account):
-        obj, create = cls.objects.get_or_create(user=user)
-        obj.followed.add(another_account)
-        print("followed")
-
-    @classmethod
-    def unfollow(cls, user, another_account):
-        obj, create = cls.objects.get_or_create(user=user)
-        obj.followed.remove(another_account)
-        print("unfollowed")
+    another_user = models.ManyToManyField(User, related_name='another_user')
 
     def __str__(self):
-        return str(self.user)
+        return self.user.name
+
+

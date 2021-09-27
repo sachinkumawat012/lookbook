@@ -5,16 +5,55 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
-<body>
-    {% for user in users %}
+<body style="background-color: rgb(182, 209, 31);">
+
+    <h1> Profile page </h1>
+    <br>
+    {% for post in posts %}
+        {{ post.id }} 
+        <br>
         {% if post.image %}
             <img src="{{post.image.url}}" alt="" class="prod-size">
         {% endif %}
         <br>
-        {{ user.id }}
+        {% if request.user in user.following.all%}
+            <a href="#" id="follow{{user.id}}" onclick=""  name="follow" data="{{post.id}}" class="follow">unfollow</a> 
+        {% else %}
+            <a href="#" id="follow{{user.id}}" onclick=""  name="follow" data="{{post.id}}" class="follow">follow</a> 
+        {% endif %}
+
+        </form>
         <br>
-        {{ usre.caption }}
+        
     {% endfor %}
-</body>
+
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+           $('#follow').click(function(event){
+               event.preventDefault();
+               var post_id = $(this).attr('data');
+    
+              
+            $.ajax({
+                url: href,
+                type: 'GET',
+                data: {'post_id': post_id},
+                dataType: "json",
+                success: function(response) {
+                
+                    if (response[following]){
+                        $('#follow'+user).text('unfollow');
+                    }
+                    else {
+                        $('#follow'+user).text('follow');
+                    }
+            
+                }
+            });
+           });
+        });
+    </script>
+ </body>
 </html>

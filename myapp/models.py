@@ -8,7 +8,6 @@ class Profile(models.Model):
     caption = models.CharField(max_length=500)
 
 
-
 # class Post(models.Model):
 
 #     by_user = models.ManyToManyField(User)

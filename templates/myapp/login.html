@@ -1,9 +1,43 @@
-welcome to login page
+<html>
+  {% load socialaccount %}
+  <head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+     body {
+    text-align: center;
+    background-color: rgb(55, 110, 173);
+    margin-top:  200px;
+    border-top: khaki;
+    border-bottom: khaki;
+    }
+    form {
+    display: inline-block;
+    }
+    </style>
+  </head>
+ <body>
+  <strong> welcome to login page </strong><br>
 
-<form method="POST">
-{% csrf_token %}
-    <input type="text" name="username" placeholder="username"><br>
-    <input type="password" name="password" placeholder="enter password"><br>
-    <input type="submit" value="Login">
+  {% if user.is_authenticated %}
+   <p>Welcome, You are logged in as {{ user.username }}</p>
+  {% else %}
+   <a href="{% provider_login_url 'google' %}"><strong style="color: ghostwhite;"> Login With Google Account </strong></a><br><br>
+  {% endif %}
 
-</form>
+    <div class="fadeIn first">
+    
+
+   <form method="POST"  align=center>
+        {% csrf_token %}
+            <input type="text" id="login" class="fadeIn second" name="username" placeholder="username"><br><br>
+            <input type="password" id="password" class="fadeIn second" name="password" placeholder="enter password"><br>
+            <br><input type="submit" class="fadeIn fourth" value="Login">
+   </form>
+
+  </div>
+ </body>
+</html>
+
+

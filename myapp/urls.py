@@ -1,4 +1,5 @@
 from django.urls import path
+from django.urls.conf import include
 from myapp import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -11,10 +12,8 @@ urlpatterns = [
     path("index/", views.index, name="index"),
     path("profile/", views.profile, name="profile"),
     path("logouts/", views.logouts, name="logouts"),
-    # path("main/", views.main, name="main"),
-    # path("details/<id>", views.details, name="details"),
-
-
+    path('accounts/', include('allauth.urls')),
+    
     
 
 ]
