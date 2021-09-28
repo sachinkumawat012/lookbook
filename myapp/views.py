@@ -75,7 +75,7 @@ def login(request):
 		if user is not None:
 			auth.login(request, user)
 			request.session['is_logged']=True
-			return redirect('main')
+			return redirect('post:main')
 		else:
 		 	return HttpResponse('invailid credentials')
 			
