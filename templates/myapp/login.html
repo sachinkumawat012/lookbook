@@ -1,5 +1,4 @@
 <html>
-  {% load socialaccount %}
   <head>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -20,11 +19,7 @@
  <body>
   <strong> welcome to login page </strong><br>
 
-  {% if user.is_authenticated %}
-   <p>Welcome, You are logged in as {{ user.username }}</p>
-  {% else %}
-   <a href="{% provider_login_url 'google' %}"><strong style="color: ghostwhite;"> Login With Google Account </strong></a><br><br>
-  {% endif %}
+  <a href="{% url 'social:begin' 'google-oauth2' %}">google</a>
 
     <div class="fadeIn first">
     

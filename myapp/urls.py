@@ -12,7 +12,6 @@ urlpatterns = [
     path("index/", views.index, name="index"),
     path("profile/", views.profile, name="profile"),
     path("logouts/", views.logouts, name="logouts"),
-    path('accounts/', include('allauth.urls')),
     
     
 

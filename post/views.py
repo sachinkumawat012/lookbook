@@ -1,7 +1,7 @@
 from django.http import response
 from django.http.response import HttpResponse, HttpResponseRedirect, JsonResponse
 from .forms import PostForm, CommentForm
-from .models import CommentModel, PostModel, Followers
+from .models import Comment, Post, Follower
 from django.shortcuts import  redirect, render
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -25,8 +25,8 @@ def post(request):
 
 
 def main(request):
-	if request.session.has_key('is_logged'):
-		posts = PostModel.objects.all()
+	if request.user.is_authenticated:
+		posts = Post.objects.all()
 		return render(request, 'post/main.html', {'posts':posts})
 	return redirect('login')
 
@@ -34,12 +34,12 @@ def main(request):
 def like(request):
 	is_liked = False
 	post_id = request.GET.get('post_id')
-	post = PostModel.objects.get(id=post_id)
+	post = Post.objects.get(id=post_id)
 	
-	if post.like.filter(id=request.user.id).exists():
-		post.like.remove(request.user)
+	if post.likes.filter(id=request.user.id).exists():
+		post.likes.remove(request.user)
 	else:
-		post.like.add(request.user)
+		post.likes.add(request.user)
 		is_liked = True
 	post.save()
 	data = {
@@ -56,30 +56,29 @@ def follow(request, id):
 	import pdb; pdb.set_trace()
 	user = User.objects.get(id=id)
 	follower = request.user
-	following = Followers.objects.get_or_create(user=user)
-	current_following = Followers.objects.get_or_create(another_user=follower)
+	following = Follower.objects.get_or_create(user=user)
+	current_following = Follower.objects.get_or_create(another_user=follower)
 	
 	if user is following:
-		Followers.user.remove(following)
+		Follower.user.remove(following)
 	else:
-		Followers.user.add(following)
+		Follower.user.add(following)
 	following.save()
-
 	return JsonResponse(following)
+
 
 def profile(request, id):
     if request.session.has_key('is_logged'):
-        post = PostModel.objects.filter(id=id)
+        post = Post.objects.filter(id=id)
         return render(request, 'post/profile.html', {'posts':post})
     else:
         return redirect('login')
 
 
 def details(request, id):
-
 	#import pdb; pdb.set_trace()
-	post = PostModel.objects.get(id=id)
-	comments = CommentModel.objects.filter(post_id=post)
+	post = Post.objects.get(id=id)
+	comments = Comment.objects.filter(post_id=post)
 	
 	form = CommentForm() 
 	context = {
@@ -97,45 +96,3 @@ def details(request, id):
 			comment.save()
 
 	return render(request, 'post/details.html', context) 
-
-
-# def profile(request, user_name):
-#     user_obj = User.objects.get(name=user_name)
-#     session_user = User.objects.get(name=request.session['user'])
-#     session_following, create = Followers.objects.get_or_create(user=session_user)
-#     following, create = Followers.objects.get_or_create(user=session_user.id)
-#     check_user_followers = Followers.objects.filter(another_user=user_obj)
-
-#     is_followed = False
-#     if session_following.another_user.filter(name=user_name).exists() or following.another_user.filter(name=user_name).exists():
-#         is_followed=True
-#     else:
-#         is_followed=False
-#     param = {'user_obj': user_obj,'followers':check_user_followers, 'following': following,'is_followed':is_followed}
-#     if 'user' in request.session:
-#         return render(request, 'profile.html', param)
-#     else:
-#         return redirect('index')
-
-
-# def follow_user(request, user_name):
-#     other_user = User.objects.get(name=user_name)
-#     session_user = request.session['user']
-#     get_user = User.objects.get(name=session_user)
-#     check_follower = Followers.objects.get(user=get_user.id)
-#     is_followed = False
-#     if other_user.name != session_user:
-#         if check_follower.another_user.filter(name=other_user).exists():
-#             add_usr = Followers.objects.get(user=get_user)
-#             add_usr.another_user.remove(other_user)
-#             is_followed = False
-#             return redirect(f'/profile/{session_user}')
-#         else:
-#             add_usr = Followers.objects.get(user=get_user)
-#             add_usr.another_user.add(other_user)
-#             is_followed = True
-#             return redirect(f'/profile/{session_user}')
-
-#         return redirect(f'/profile/{session_user}')
-#     else:
-#         return redirect(f'/profile/{session_user}')

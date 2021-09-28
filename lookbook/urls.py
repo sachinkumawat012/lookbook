@@ -10,6 +10,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('myapp.urls')),
     path('post/', include('post.urls')),
+    path('accounts/', include('social_django.urls')),
+
     
 ]
 

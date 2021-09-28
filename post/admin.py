@@ -1,19 +1,19 @@
 from django.contrib import admin
-from .models import CommentModel, Followers, PostModel
+from .models import Comment, Follower, Post
 
 # Register your models here.
 
-@admin.register(PostModel)
+@admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    display_list = ['image', 'description', 'like', 'username']
+    display_list = ['image', 'description', 'likes', 'username']
 
 
-@admin.register(CommentModel)
+@admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     display_list = ['massege', 'datetime']
 
 
-@admin.register(Followers)
+@admin.register(Follower)
 class FollowAdmin(admin.ModelAdmin):
     display_list = ['']
 

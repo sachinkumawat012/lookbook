@@ -1,6 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+{% load static %}
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
         .footer {
@@ -21,10 +24,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{% static 'all.js' %}" type="text/javascript"></script>
+
 </head>
-<body style="background-color: rgb(197, 228, 85);">
+<body style="background-color: rgb(230, 215, 82);">
 
     <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
         <a class="navbar-brand" href="#">LOOKBOOK'S MAIN-PAGE</a>
@@ -55,16 +59,16 @@
    
         <br>
      
-        {{ post.description }} <a href="{% url 'details' post.id %} ">Details</a>
+        {{ post.description }} <a href="{% url 'post:details' post.id %} ">Details</a>
         <br>
-        <a href="{% url 'profile' post.id %} ">profile</a>
+        <a href="{% url 'post:profile' post.id %} ">profile</a>
         <br>
         
-        {% if request.user in post.like.all%}
-            <a href="#" id="like{{post.id}}" onclick=""  name="like" data="{{post.id}}" class="like">liked</a> -->
+        {% if request.user in post.likes.all%}
+            <a href="#" id="like{{post.id}}" onclick="" url="{% url 'post:like' %}" name="like" data="{{post.id}}" class="like">liked</a> 
             <p id="count{{post.id}}" class="count" > {{post.total_likes}} </p>
         {% else %}
-            <a href="#" id="like{{post.id}}" onclick=""  name="like" data="{{post.id}}" class="like">like</a> -->{{ total_likes }}
+            <a href="#" id="like{{post.id}}" onclick=""  url="{% url 'post:like' %}" name="like" data="{{post.id}}" class="like">like</a> 
             <p id="count{{post.id}}" class="count" > {{post.total_likes}} </p>
         {% endif %}
         
@@ -72,38 +76,14 @@
         <hr arial-model="true"> 
 
     {% endfor %}
-    <script type="text/javascript"> 
-        $(document).ready(function(){
-           $('.like').click(function(event){
-               event.preventDefault();
-               var post_id = $(this).attr('data');
-              
-            $.ajax({
-             type: "GET",
-             url: "{% url 'like' %}",
-             data: {'post_id': post_id},
-             dataType: "json",
-             success: function(response) {
-                
-               
-                               
-                if (response.is_liked){
-                    $('#like'+post_id).text('liked');
-                }
-                else {
-                    $('#like'+post_id).text('like');
-                }
-            
-                $('#count'+post_id).text(response.total_likes);
-                }
-              
-            });
-           });
-        });    
-    </script>
+
     </div>
-    <hr>
-    <div  style="color: rgb(235, 10, 10);" class="fotter">contact_as:- info@gmail.com <br> phone:- 1233445675</div>
+    <hr aria-modal="true">
+    <div  style="color: rgba(247, 2, 2, 0.966);" class="fotter">
+        contact_as:- info@gmail.com <br> 
+        phone:- 1233445675<br>
+        LookBook Help
+    </div>
 </div> 
 </body>
 </html>

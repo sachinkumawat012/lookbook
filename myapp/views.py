@@ -3,13 +3,12 @@ from django.contrib import  auth
 from django.http.response import HttpResponse
 from django.shortcuts import  render
 from django.shortcuts import redirect
-from . forms import NewUserForm, UserProfile
+from . forms import UserForm, UserProfile
 from django.contrib import messages
-from django.contrib.sessions.models import Session
 from .models import Profile
 from django.contrib.auth import login, authenticate
 from django.contrib.auth import logout
-from post.models import PostModel, CommentModel
+from post.models import Post, Comment
 from post.forms import CommentForm
 
 
@@ -44,7 +43,7 @@ def home(request):
 
 def register(request):
 	if request.method == 'POST':
-		form = NewUserForm(request.POST)
+		form = UserForm(request.POST)
 		if form.is_valid():
 			form.save()
 			username = request.POST['username']
@@ -62,7 +61,7 @@ def register(request):
 		 		return HttpResponse('invailid credentials')
 	else:
 		request.session['is_logged']=True
-		form = NewUserForm()
+		form = UserForm()
 		return render(request, 'myapp/register.html', {'form':form})
 
 
