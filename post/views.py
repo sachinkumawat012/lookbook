@@ -50,21 +50,24 @@ def like(request):
 	return JsonResponse(data)
 
 
-def follow(request, id):
+def follow(request,):
 
-	#user_id = request.GET.get('user_id')
-	import pdb; pdb.set_trace()
-	user = User.objects.get(id=id)
-	follower = request.user
-	following = Follower.objects.get_or_create(user=user)
-	current_following = Follower.objects.get_or_create(another_user=follower)
+	user_id = request.GET.get('user_id')                            # to be followed 
+	follow_user = User.objects.get(id=user_id)
+	user = request.user                                              #current user
+	follower = Follower.objects.get_or_create(user=user)[0]
+	is_following = False
 	
-	if user is following:
-		Follower.user.remove(following)
+	if follower.another_user.filter(id=follow_user.id).exists():
+		follower.another_user.remove(follow_user)
 	else:
-		Follower.user.add(following)
-	following.save()
-	return JsonResponse(following)
+		follower.another_user.add(follow_user)
+		is_following = True
+	data = {
+		"is_following": is_following,
+
+	}
+	return JsonResponse(data)
 
 
 def profile(request, id):

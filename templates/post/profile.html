@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{% static 'js/follow.js' %}" type="text/javascript"></script>
 </head>
 <body style="background-color: rgb(182, 209, 31);">
 
@@ -19,9 +21,9 @@
         {% endif %}
         <br>
         {% if request.user in user.following.all%}
-            <a href="#" id="follow{{user.id}}" onclick=""  name="follow" data="{{post.id}}" class="follow">unfollow</a> 
+            <a href="#" id="follow{{user.id}}" onclick="" url="{% url 'post:follow' %}" name="follow" data="{{user.id}}" class="follow">unfollow</a> 
         {% else %}
-            <a href="#" id="follow{{user.id}}" onclick=""  name="follow" data="{{post.id}}" class="follow">follow</a> 
+            <a href="#" id="follow{{user.id}}" onclick=""  url="{% url 'post:follow' %}" name="follow" data="{{user.id}}" class="follow">follow</a> 
         {% endif %}
 
         </form>
@@ -29,31 +31,5 @@
         
     {% endfor %}
 
-    <script type="text/javascript"> 
-        $(document).ready(function(){
-           $('#follow').click(function(event){
-               event.preventDefault();
-               var post_id = $(this).attr('data');
-    
-              
-            $.ajax({
-                url: href,
-                type: 'GET',
-                data: {'post_id': post_id},
-                dataType: "json",
-                success: function(response) {
-                
-                    if (response.following){
-                        $('#follow'+user).text('unfollow');
-                    }
-                    else {
-                        $('#follow'+user).text('follow');
-                    }
-            
-                }
-            });
-           });
-        });
-    </script>
  </body>
 </html>

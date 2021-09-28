@@ -26,8 +26,8 @@ class Comment(models.Model):
 
 
 class Follower(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    another_user = models.ManyToManyField(User, related_name='another_user')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  #current user
+    another_user = models.ManyToManyField(User, related_name='another_user') # to be followed
 
     def __str__(self):
         return self.user.name
